@@ -26,6 +26,10 @@ export abstract class EntityRepository<
     this.schema = schema;
   }
 
+  public getSchema() {
+    return this.schema;
+  }
+
   abstract get(id: Identifier): Promise<z.infer<TEntitySchema> | null>;
   abstract delete(id: Identifier): Promise<void>;
 
@@ -51,5 +55,5 @@ export abstract class EntityRepository<
   abstract _update(
     id: Identifier,
     e: Partial<Omit<z.infer<TEntitySchema>, "id" | "createdAt">>
-  ): Promise<void>;
+  ): Promise<z.infer<TEntitySchema>>;
 }
