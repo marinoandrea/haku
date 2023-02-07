@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true
+  },
+  "extends": "../../tsconfig.base.json",
+  "references": [{ "path": "../haku-core" }]
+}
