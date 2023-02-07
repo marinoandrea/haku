@@ -22,11 +22,12 @@ export class MongoDBEntityRepository<
   async _update(
     id: haku.Identifier,
     data: Partial<Omit<z.infer<TEntitySchema>, "id" | "createdAt">>
-  ): Promise<void> {
+  ): Promise<z.infer<TEntitySchema>> {
     const result = await this.connection
       .collection(this.collection)
-      .updateOne({ id }, data);
-    if (result.matchedCount === 0) throw new haku.EntityNotFoundError();
+      .findOneAndUpdate({ id }, data);
+    if (!result.ok) throw new haku.EntityNotFoundError();
+    return this.getSchema().parse(result);
   }
 
   async _create(e: z.TypeOf<TEntitySchema>): Promise<void> {
